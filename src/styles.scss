@@ -1,1 +1,73 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .form-line {
+        flex-direction: row;
+    }
+}
+
+.questions-block {
+    display: flex;
+    flex-direction: column;
+
+    div button {
+        margin-top: 1em;
+        cursor: pointer;
+        background-color: white;
+        color: green;
+        border: 1px solid green;
+        border-radius: 3px;
+
+        &:not(:first-child) {
+            margin-left: 0.5em;
+        }
+    }
+
+    .submit-btn {
+        width: 100%;
+        margin-top: 1em;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        button {
+            max-width: 15em;
+            border-radius: 3px;
+            background-color: indigo;
+            border: 1px colid indigo;
+            color: white;
+        }
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+button,
+app-quizz-select > * {
+    cursor: pointer;
+}
+
+app-quizz-question {
+    margin-top: 1em;
+}
+
+app-quizz {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+span {
+    &.question-title {
+        color: gray;
+    }
+}

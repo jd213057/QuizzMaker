@@ -1,0 +1,38 @@
+<div class="page">
+    <!--Quizz component page-->
+    <h2>Quizz Maker</h2>
+    <!--Create quizz form-->
+    <form [formGroup]="quizzForm">
+        <div class="form-line">
+            <!--Category dropdown-->
+            <app-quizz-select
+                [selectId]="'categorySelect'"
+                [name]="'categorySelect'"
+                [options]="categoryOptions"
+                [defaultOption]="defaultCategoryOption"
+                [formControl]="category"
+            ></app-quizz-select>
+            <!--Difficulty dropdown-->
+            <app-quizz-select
+                [selectId]="'difficultySelect'"
+                [name]="'difficultySelect'"
+                [options]="difficultyOptions"
+                [defaultOption]="defaultDifficultyOption"
+                [formControl]="difficulty"
+            ></app-quizz-select>
+            <button id="createBtn" (click)="createQuizz()">Create</button>
+        </div>
+    </form>
+</div>
+
+<!--Quizz-->
+<div *ngIf="hasQuizz" class="questions-block">
+    <app-quizz-question
+        #question
+        *ngFor="let question of questions; let index = index"
+        [id]="index"
+        [question]="question"
+        (selectionChange)="onSelectionChange($event)"
+    ></app-quizz-question>
+    <div class="submit-btn"><button [ngClass]="{hidden: canSubmit()}">Submit</button></div>
+</div>

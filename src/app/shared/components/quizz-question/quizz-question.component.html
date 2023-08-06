@@ -1,0 +1,13 @@
+<div id="{{ id }}" class="question-block">
+    <span class="question-title">{{ question.question | unescape }}</span>
+    <div>
+        <button
+            choice
+            class="question-choice-btn"
+            *ngFor="let choice of choices"
+            value="{{ choice | unescape }}"
+            (click)="onChoice(choice)"
+            >{{ choice | unescape }}</button
+        >
+    </div>
+</div>
