@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {QuizzQuestion} from '../../entities/quizzQuestion';
+import {Question} from '../../entities/question';
+import {Answer} from '../../entities/answer';
 
 @Component({
     selector: 'app-quizz-question',
@@ -8,22 +9,14 @@ import {QuizzQuestion} from '../../entities/quizzQuestion';
 })
 export class QuizzQuestionComponent implements OnInit {
     /**
-     * Id of the question to be displayed
-     */
-    @Input() id!: number;
-    /**
      * Question to be displayed
      */
-    @Input() question!: QuizzQuestion;
+    @Input() question!: Question;
 
     /**
      * Emitted when selection of choices changes
      */
-    @Output() selectionChange: EventEmitter<{id: number; selection: string[]; answered: boolean}> = new EventEmitter<{
-        id: number;
-        selection: string[];
-        answered: boolean;
-    }>();
+    @Output() selectionChange: EventEmitter<Answer> = new EventEmitter<Answer>();
 
     /**
      * Choice of answers for the question
@@ -44,36 +37,21 @@ export class QuizzQuestionComponent implements OnInit {
      */
     ngOnInit() {
         if (this.question) {
-            this.choices = this._getChoices(this.question);
+            this.choices = this.question.choices;
         }
     }
 
     /**
-     * Returns shuffled list of choices for related question
-     * @param question QuizzQuestion
-     * @returns List of choices string[]
-     */
-    private _getChoices(question: QuizzQuestion): string[] {
-        let choices = [question.correct_answer];
-        choices.push(...question.incorrect_answers);
-        //Shuffles the list
-        choices.sort(() => Math.random() - 0.5);
-        return choices;
-    }
-
-    /**
      * Triggered when a choice is selected
-     * @param choice
+     * @param choice string
      */
     protected onChoice(choice: string): void {
-        console.log('onChoice');
         const allreadySelected = this.selection.includes(choice);
         if (allreadySelected) {
             this.selection = this.selection.filter(el => el !== choice);
         } else {
             this.selection.push(choice);
         }
-        const hasAnswered = this.selection.length > 0;
-        this.selectionChange.emit({id: this.id, selection: this.selection, answered: hasAnswered});
+        this.selectionChange.emit(new Answer(this.question.id, this.selection));
     }
 }

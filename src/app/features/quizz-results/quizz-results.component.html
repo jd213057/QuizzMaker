@@ -1,0 +1,9 @@
+<!--Quizz results-->
+<div class="page">
+    <h2>RESULTS</h2>
+    <div class="questions-block">
+        <app-quizz-result *ngFor="let result of results" [result]="result"></app-quizz-result>
+        <div score [ngStyle]="{'background-color': scoreColor}" class="score-bar">You scored {{ score }} out of {{ results.length }}</div>
+        <div class="submit-btn"><button (click)="navigateToQuizz()">Create a new quizz</button></div>
+    </div>
+</div>

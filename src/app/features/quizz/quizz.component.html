@@ -1,5 +1,5 @@
+<!--Quizz component page-->
 <div class="page">
-    <!--Quizz component page-->
     <h2>Quizz Maker</h2>
     <!--Create quizz form-->
     <form [formGroup]="quizzForm">
@@ -20,8 +20,8 @@
                 [defaultOption]="defaultDifficultyOption"
                 [formControl]="difficulty"
             ></app-quizz-select>
-            <button id="createBtn" (click)="createQuizz()">Create</button>
         </div>
+        <button id="createBtn" class="submit-btn create-btn" (click)="createQuizz()">Create</button>
     </form>
 </div>
 
@@ -29,10 +29,9 @@
 <div *ngIf="hasQuizz" class="questions-block">
     <app-quizz-question
         #question
-        *ngFor="let question of questions; let index = index"
-        [id]="index"
+        *ngFor="let question of questions"
         [question]="question"
         (selectionChange)="onSelectionChange($event)"
     ></app-quizz-question>
-    <div class="submit-btn"><button [ngClass]="{hidden: canSubmit()}">Submit</button></div>
+    <div class="submit-btn"><button (click)="navigateToQuizzResults()" [ngClass]="{hidden: canSubmit()}">Submit</button></div>
 </div>

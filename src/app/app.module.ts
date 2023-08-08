@@ -12,10 +12,22 @@ import {QuizzSelectComponent} from './shared/components/quizz-select/quizz-selec
 import {ChoiceDirective} from './shared/directives/choice';
 import {UnescapePipe} from './shared/pipes/unescape';
 import {QuizzService} from './shared/services/quizz.service';
+import {QuizzResultsComponent} from './features/quizz-results/quizz-results.component';
+import {RouterModule} from '@angular/router';
+import { QuizzResultComponent } from './shared/components/quizz-result/quizz-result.component';
 
 @NgModule({
-    declarations: [AppComponent, QuizzSelectComponent, UnescapePipe, QuizzQuestionComponent, ChoiceDirective, QuizzComponent],
-    imports: [BrowserModule, HttpClientModule, FormsModule, ReactiveFormsModule, AppRoutingModule],
+    declarations: [
+        AppComponent,
+        QuizzSelectComponent,
+        UnescapePipe,
+        QuizzQuestionComponent,
+        ChoiceDirective,
+        QuizzComponent,
+        QuizzResultsComponent,
+        QuizzResultComponent,
+    ],
+    imports: [BrowserModule, HttpClientModule, FormsModule, ReactiveFormsModule, AppRoutingModule, RouterModule],
     providers: [
         {
             provide: APP_INITIALIZER,

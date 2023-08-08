@@ -1,7 +1,10 @@
 import {Component, ViewChildren} from '@angular/core';
 import {FormGroup, FormControl} from '@angular/forms';
+import {Router} from '@angular/router';
 import {QuizzQuestionComponent} from 'src/app/shared/components/quizz-question/quizz-question.component';
-import {QuizzQuestion, SelectType} from 'src/app/shared/entities/quizzQuestion';
+import {Answer} from 'src/app/shared/entities/answer';
+import {Question} from 'src/app/shared/entities/question';
+import {SelectType} from 'src/app/shared/types';
 import {SelectOption} from 'src/app/shared/entities/selectOption';
 import {QuizzService} from 'src/app/shared/services/quizz.service';
 /**
@@ -35,10 +38,15 @@ export class QuizzComponent {
     @ViewChildren('question') questionsEl?: QuizzQuestionComponent[];
 
     /**
+     * Gets the question of the current quizz
+     */
+    protected questions: Question[] = [];
+
+    /**
      * List of answers of the current quizz
      * @type {{id: number, selection: string[]}[]}
      */
-    protected answers: {id: number; selection: string[]; answered: boolean}[] = [];
+    protected answers: Answer[] = [];
 
     //Getters
     /**
@@ -82,12 +90,7 @@ export class QuizzComponent {
         return this._quizzService.hasQuizz;
     }
 
-    /**
-     * Gets the question of the current quizz
-     */
-    protected questions: QuizzQuestion[] = [];
-
-    constructor(private _quizzService: QuizzService) {}
+    constructor(private _quizzService: QuizzService, private _route: Router) {}
 
     /**
      * Process at the init of the component
@@ -95,6 +98,7 @@ export class QuizzComponent {
     ngOnInit() {
         this._initQuizzForm();
         this._quizzService.questions$.subscribe(questions => (this.questions = questions));
+        //this._quizzService.answers$.subscribe(answers => (this.answers = answers));
     }
 
     /**
@@ -124,7 +128,7 @@ export class QuizzComponent {
      * Triggered when a choice is selected/deselected
      * @param value {id: number; selection: string[]}
      */
-    protected onSelectionChange(value: {id: number; selection: string[]; answered: boolean}) {
+    protected onSelectionChange(value: Answer) {
         const alreadyAnswered = this.answers?.some(el => el.id === value.id);
         if (alreadyAnswered) {
             this.answers = this.answers.filter(el => el.id !== value.id);
@@ -145,14 +149,22 @@ export class QuizzComponent {
             this.questionsEl?.length > 0 &&
             this.answers?.length > 0 &&
             this.answers?.length === this.questionsEl?.length &&
-            this.answers.every(el => el.answered);
+            this.answers.every(el => el.selection?.length > 0);
         return !allQuestionsAnswered;
+    }
+
+    /**
+     * Navigates to results page when quizz is completed
+     */
+    protected navigateToQuizzResults() {
+        this._quizzService.answersSubject.next(this.answers);
+        this._route.navigate(['/results']);
     }
 
     /**
      * Process at the destruction of the component
      */
     ngOnDestroy() {
-        this._quizzService.questions$.unsubscribe();
+        //this._quizzService.questionsSubject.unsubscribe();
     }
 }

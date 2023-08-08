@@ -1,4 +1,4 @@
-import {QuizzQuestion} from './quizzQuestion';
+import {Question} from './question';
 
 /**
  * Interface to deserialize CreateQuizzResponse json like
@@ -12,7 +12,7 @@ export interface CreateQuizzResponse {
     /**
      * Results of CreateQuizzResponse
      */
-    results: QuizzQuestion[];
+    results: Question[];
 }
 
 /**
@@ -27,7 +27,7 @@ export class CreateQuizzResponse {
     /**
      * Questions of CreateQuizzResponse
      */
-    public questions: QuizzQuestion[];
+    public questions: Question[];
 
     /**
      * Constructor of CreateQuizzResponse
@@ -35,7 +35,6 @@ export class CreateQuizzResponse {
      */
     constructor(json: CreateQuizzResponse) {
         this.resultCode = json?.result_code;
-        this.questions = json?.results;
-        //this.questions = json?.results.map(r => new QuizzQuestion(r));
+        this.questions = json?.results.map(r => new Question(r));
     }
 }

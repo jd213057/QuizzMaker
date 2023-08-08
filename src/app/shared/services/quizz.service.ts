@@ -1,8 +1,9 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable, Subject, tap} from 'rxjs';
+import {BehaviorSubject, Observable, Subject, tap} from 'rxjs';
+import {Answer} from '../entities/answer';
 import {CreateQuizzResponse} from '../entities/createQuizzResponse';
-import {QuizzQuestion} from '../entities/quizzQuestion';
+import {Question} from '../entities/question';
 import {SelectOption} from '../entities/selectOption';
 
 @Injectable({
@@ -27,15 +28,15 @@ export class QuizzService {
      */
     private readonly _difficultyOptions: SelectOption[] = [
         new SelectOption('easy', 'Easy', false),
-        new SelectOption('medium', 'medium', false),
+        new SelectOption('medium', 'Medium', false),
         new SelectOption('high', 'High', false),
     ];
 
     /**
      * Questions of the current quizz
-     * @type {(QuizzQuestion[])}
+     * @type {(Question[])}
      */
-    private _questions: QuizzQuestion[] = [];
+    private _questions: Question[] = [];
 
     /**
      * Indicates if has a quizz to display
@@ -46,17 +47,46 @@ export class QuizzService {
     /**
      * Subject of the questions of the current quizz
      * @readonly
-     * @type {(QuizzQuestion[])}
+     * @type {(Question[])}
      */
-    public questions$: Subject<QuizzQuestion[]> = new Subject<QuizzQuestion[]>();
+    public questionsSubject: BehaviorSubject<Question[]> = new BehaviorSubject<Question[]>([]);
+
+    /**
+     * Observable of the questions of the current quizz
+     * @readonly
+     * @type {(Question[])}
+     */
+    public questions$: Observable<Question[]> = this.questionsSubject.asObservable();
+
+    /**
+     * Subject of the answers of the current quizz
+     * @readonly
+     * @type {(Answer[])}
+     */
+    public answersSubject: BehaviorSubject<Answer[]> = new BehaviorSubject<Answer[]>([]);
+
+    /**
+     * Observable of the questions of the current quizz
+     * @readonly
+     * @type {(Answer[])}
+     */
+    public answers$: Observable<Answer[]> = this.answersSubject.asObservable();
 
     /**
      * Indicates if has a current quizz
      * @readonly
-     * @type {(QuizzQuestion[])}
+     * @type {(Question[])}
      */
     public get hasQuizz(): boolean {
         return this._hasQuizz;
+    }
+
+    /**
+     * Setter of _hasQuizz
+     * @type {void}
+     */
+    public set hasQuizz(val: boolean) {
+        this._hasQuizz = val;
     }
 
     /**
@@ -111,14 +141,7 @@ export class QuizzService {
                         console.error('There has been an error');
                     }
                 })
-            ); /*subscribe({
-          next: data => {
-              console.log(data);
-              this._categoryOptions = data;
-          },
-          error: error => console.error('There has been an error :' + error),
-          complete: () => console.log('Category list downloaded'),
-      });*/
+            );
     }
 
     /**
@@ -128,9 +151,8 @@ export class QuizzService {
         const createQuizzUrl = 'https://opentdb.com/api.php';
         return this._http.get<CreateQuizzResponse>(createQuizzUrl, {params: quizzSettings}).subscribe({
             next: data => {
-                console.log(data);
                 const createQuizzResponse = new CreateQuizzResponse(data);
-                this.questions$.next(createQuizzResponse.questions);
+                this.questionsSubject.next(createQuizzResponse.questions);
                 this._hasQuizz = true;
             },
             error: error => console.error(error),

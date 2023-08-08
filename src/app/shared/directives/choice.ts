@@ -1,4 +1,5 @@
 import {Directive, ElementRef, HostListener, Renderer2} from '@angular/core';
+import {ColorState} from '../types';
 /**
  * Attribute directive for a choice of a question
  */
@@ -47,7 +48,7 @@ export class ChoiceDirective {
      * @param color string
      * @param backgroundColor string
      */
-    private _setColorStyle(color: string, backgroundColor: string): void {
+    private _setColorStyle(color: ColorState, backgroundColor: string): void {
         this._renderer.setStyle(this._el.nativeElement, 'color', color);
         this._renderer.setStyle(this._el.nativeElement, 'background-color', backgroundColor);
     }

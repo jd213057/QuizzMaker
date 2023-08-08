@@ -75,14 +75,14 @@ export class QuizzSelectComponent implements OnInit, ControlValueAccessor {
         console.log(value);
         //if (this.optionSelected?.value) this.optionSelected.value = value ?? 0;
     }
-    onChange: any = () => {};
-    onTouched: any = () => {};
+    onChange: Function = () => {};
+    onTouched: Function = () => {};
 
-    registerOnChange(fn: () => {}) {
+    registerOnChange(fn: Function) {
         this.onChange = fn;
     }
 
-    registerOnTouched(fn: () => {}) {
+    registerOnTouched(fn: Function) {
         this.onTouched = fn;
     }
 
@@ -109,7 +109,7 @@ export class QuizzSelectComponent implements OnInit, ControlValueAccessor {
     /**
      * Checks if option is selected
      * @param val number | string
-     * @return {*}  {boolean}
+     * @return {boolean}
      */
     protected isSelected(val: number | string): boolean {
         return val == this.optionSelected?.value;
