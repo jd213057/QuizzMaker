@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {Question} from 'src/app/shared/entities/question';
-import {QuizService} from 'src/app/shared/services/quiz.service';
-import {ColorState} from 'src/app/shared/utils/types';
+import {Question} from '../../shared/entities/question';
+import {QuizService} from '../../shared/services/quiz.service';
+import {ColorState} from '../../shared/utils/types';
 /**
  * Results of the quiz (HMI component)
  */

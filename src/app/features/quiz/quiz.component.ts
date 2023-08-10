@@ -2,10 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {Question} from 'src/app/shared/entities/question';
-import {SelectOption} from 'src/app/shared/entities/selectOption';
-import {QuizService} from 'src/app/shared/services/quiz.service';
-import {SelectType} from 'src/app/shared/utils/types';
+import {Question} from '../../shared/entities/question';
+import {SelectOption} from '../../shared/entities/selectOption';
+import {QuizService} from '../../shared/services/quiz.service';
+import {SelectType} from '../../shared/utils/types';
 /**
  * Quiz HMI component
  */
