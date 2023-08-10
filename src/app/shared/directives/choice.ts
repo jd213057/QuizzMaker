@@ -12,13 +12,18 @@ export class ChoiceDirective {
      */
     private _selected = false;
 
+    /**
+     * Constructor of ChoiceDirective
+     * @param _el ElementRef
+     * @param _renderer Renderer2
+     */
     constructor(private _el: ElementRef, private _renderer: Renderer2) {}
 
     /**
      * Update rendering on mouse hover
      */
     @HostListener('mouseover')
-    onMouseHover() {
+    onMouseHover(): void {
         if (!this._selected) {
             this._setColorStyle('white', 'green');
         }
@@ -28,7 +33,7 @@ export class ChoiceDirective {
      * Update rendering on mouse out
      */
     @HostListener('mouseout')
-    onMouseOut() {
+    onMouseOut(): void {
         if (!this._selected) {
             this._setColorStyle('green', 'white');
         }
@@ -38,7 +43,7 @@ export class ChoiceDirective {
      * Update rendering on mouse click
      */
     @HostListener('click')
-    onClick() {
+    onClick(): void {
         this._setColorStyle('white', 'green');
         this._selected = !this._selected;
     }

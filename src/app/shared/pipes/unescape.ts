@@ -8,7 +8,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class UnescapePipe implements PipeTransform {
     /**
-     * Formats a string value retreiving escape sequences
+     * Formats a string value managing escape sequences
      * @param value string
      * @returns string | null
      */

@@ -9,7 +9,7 @@ export class Question {
     /**
      *Unescape pipe to format questions and choices
      */
-    protected static unescape: UnescapePipe = new UnescapePipe();
+    public static unescape: UnescapePipe = new UnescapePipe();
 
     /**
      * Number for Id registration

@@ -2,11 +2,12 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Choice} from '../../entities/choice';
 import {Question as Question} from '../../entities/question';
 import {Mode, State} from '../../utils/types';
-
+/**
+ * Class that describes QuizQuestionComponent (question item)
+ */
 @Component({
     selector: 'app-quiz-question',
     templateUrl: './quiz-question.component.html',
-    styleUrls: ['./quiz-question.component.scss'],
 })
 export class QuizQuestionComponent implements OnInit {
     /**
@@ -22,7 +23,7 @@ export class QuizQuestionComponent implements OnInit {
     /**
      * Choice of answers for the question
      */
-    protected choices!: Choice[];
+    public choices!: Choice[];
 
     /**
      *Selection of choices for the question asked
@@ -34,7 +35,7 @@ export class QuizQuestionComponent implements OnInit {
     /**
      * Processes at the initialization of QuizQuestionComponent
      */
-    ngOnInit() {
+    ngOnInit(): void {
         if (this.question) {
             this.choices = this.question.choices;
         }
@@ -44,7 +45,7 @@ export class QuizQuestionComponent implements OnInit {
      * Triggered when a choice is selected
      * @param choice string
      */
-    protected onChoice(event: MouseEvent, choice: Choice): void {
+    public onChoice(event: MouseEvent, choice: Choice): void {
         choice.selected = !choice.selected;
         event?.preventDefault();
     }
@@ -53,14 +54,14 @@ export class QuizQuestionComponent implements OnInit {
      * Indicates if display is in "quiz" mode
      * if false, then game is in "results" mode
      */
-    protected isQuizMode(): boolean {
+    public isQuizMode(): boolean {
         return this.mode === 'quiz';
     }
 
     /**
      * Gets the class to apply for question choice
      */
-    protected getState(choice: Choice): State {
+    public getState(choice: Choice): State {
         let state: State = '';
 
         if (!choice.correct && choice.selected) {

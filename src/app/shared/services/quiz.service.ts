@@ -5,7 +5,9 @@ import {CreateQuizResponse} from '../entities/createQuizResponse';
 import {CreateQuizResponse as ICreateQuizResponse} from '../interfaces/createQuizResponse';
 import {Question} from '../entities/question';
 import {SelectOption} from '../entities/selectOption';
-
+/**
+ * Service responsible for maintaining data related to quiz functions
+ */
 @Injectable({
     providedIn: 'root',
 })
@@ -19,13 +21,14 @@ export class QuizService {
             name: string;
         }[];
     };
+
     /**
      * Options available for the level of difficulty of the quiz
      */
     private readonly _difficultyOptions: SelectOption[] = [
         new SelectOption('easy', 'Easy', false),
         new SelectOption('medium', 'Medium', false),
-        new SelectOption('high', 'High', false),
+        new SelectOption('hard', 'Hard', false),
     ];
 
     /**
@@ -36,13 +39,14 @@ export class QuizService {
     /**
      * Subject of the questions of the current quiz
      */
-    //public questionsSubject: BehaviorSubject<Question[]> = new BehaviorSubject<Question[]>([]);
     public questionsSubject: BehaviorSubject<Question[]> = new BehaviorSubject<Question[]>([]);
 
     /**
      * Observable of the questions of the current quiz
      */
     public questions$: Observable<Question[]> = this.questionsSubject.asObservable();
+
+    //Getters & Setters
 
     /**
      * Indicates if has a current quiz
@@ -64,14 +68,6 @@ export class QuizService {
     public get difficultyOptions(): SelectOption[] {
         return this._difficultyOptions;
     }
-
-    /**
-     * Gets the list of difficulty options
-     */
-    /*public get categoryOptions(): SelectOption[];
-    } {
-        return this._categoryOptions.trivia_categories.map(opt => new SelectOption(opt.id, opt.name, false));
-    }*/
 
     constructor(private _http: HttpClient) {}
 
@@ -108,7 +104,7 @@ export class QuizService {
     /**
      * Request creation of the quiz to the Trivia API
      */
-    public createQuiz2(quizSettings: {amount: number; category: number; difficulty: string; type: 'multiple' | 'any' | 'true/false'}) {
+    public createQuiz(quizSettings: {amount: number; category: number; difficulty: string; type: 'multiple' | 'any' | 'true/false'}) {
         const createQuizUrl = 'https://opentdb.com/api.php';
         return this._http.get<ICreateQuizResponse>(createQuizUrl, {params: quizSettings}).subscribe({
             next: data => {

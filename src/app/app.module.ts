@@ -13,7 +13,7 @@ import {ChoiceDirective} from './shared/directives/choice';
 import {ResultDirective} from './shared/directives/result';
 import {UnescapePipe} from './shared/pipes/unescape';
 import {QuizService} from './shared/services/quiz.service';
-import { QuizScoreBarComponent } from './shared/components/quiz-score-bar/quiz-score-bar.component';
+import {QuizScoreBarComponent} from './shared/components/quiz-score-bar/quiz-score-bar.component';
 
 @NgModule({
     declarations: [

@@ -13,7 +13,6 @@ export class CreateQuizResponse {
     /**
      * Questions of CreateQuizResponse
      */
-    //public questions: Question[];
     public questions: Question[];
 
     /**

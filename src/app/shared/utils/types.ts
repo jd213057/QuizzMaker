@@ -1,3 +1,5 @@
+//File to declare all alias types used in the app
+
 /**
  * Alias type for states
  */

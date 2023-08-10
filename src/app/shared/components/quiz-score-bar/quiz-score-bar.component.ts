@@ -1,11 +1,11 @@
-import {OnChanges, OnInit} from '@angular/core';
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ColorState} from '../../utils/types';
-
+/**
+ * Class that describes QuizScoreBarComponent
+ */
 @Component({
     selector: 'app-quiz-score-bar',
     templateUrl: './quiz-score-bar.component.html',
-    styleUrls: ['./quiz-score-bar.component.scss'],
 })
 export class QuizScoreBarComponent implements OnInit {
     /**
@@ -21,14 +21,14 @@ export class QuizScoreBarComponent implements OnInit {
     /**
      * Background color to display
      */
-    protected scoreColor: ColorState = 'white';
+    public scoreColor: ColorState = 'white';
 
     constructor() {}
 
     /**
      * Triggered when component is initialized
      */
-    ngOnInit() {
+    ngOnInit(): void {
         this._setScoreColor();
     }
 

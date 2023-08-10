@@ -2,6 +2,7 @@
 <div class="page">
     <h2>RESULTS</h2>
     <div class="questions-block">
+        <!--Results-->
         <app-quiz-question *ngFor="let question of questions" [question]="question" [mode]="'results'"></app-quiz-question>
         <!--Score bar-->
         <app-quiz-score-bar [score]="score" [nbQuestions]="questions.length"></app-quiz-score-bar>
