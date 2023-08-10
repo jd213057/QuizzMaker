@@ -1,0 +1,124 @@
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable, Subject, tap} from 'rxjs';
+import {Answer} from '../entities/answer';
+import {CreateQuizResponse} from '../entities/createQuizResponse';
+import {Question} from '../entities/question';
+import {Question2} from '../entities/question';
+import {SelectOption} from '../entities/selectOption';
+
+@Injectable({
+    providedIn: 'root',
+})
+export class QuizService {
+    /**
+     * Options available for the category of question of the quiz
+     */
+    public categoryOptions!: {
+        trivia_categories: {
+            id: number;
+            name: string;
+        }[];
+    };
+    /**
+     * Options available for the level of difficulty of the quiz
+     */
+    private readonly _difficultyOptions: SelectOption[] = [
+        new SelectOption('easy', 'Easy', false),
+        new SelectOption('medium', 'Medium', false),
+        new SelectOption('high', 'High', false),
+    ];
+
+    /**
+     * Indicates if has a quiz to display
+     */
+    private _hasQuiz: boolean = false;
+
+    /**
+     * Subject of the questions of the current quiz
+     */
+    //public questionsSubject: BehaviorSubject<Question[]> = new BehaviorSubject<Question[]>([]);
+    public questionsSubject: BehaviorSubject<Question2[]> = new BehaviorSubject<Question2[]>([]);
+
+    /**
+     * Observable of the questions of the current quiz
+     */
+    public questions$: Observable<Question2[]> = this.questionsSubject.asObservable();
+
+    /**
+     * Indicates if has a current quiz
+     */
+    public get hasQuiz(): boolean {
+        return this._hasQuiz;
+    }
+
+    /**
+     * Setter of _hasQuiz
+     */
+    public set hasQuiz(val: boolean) {
+        this._hasQuiz = val;
+    }
+
+    /**
+     * Gets the list of difficulty options
+     */
+    public get difficultyOptions(): SelectOption[] {
+        return this._difficultyOptions;
+    }
+
+    /**
+     * Gets the list of difficulty options
+     */
+    /*public get categoryOptions(): SelectOption[];
+    } {
+        return this._categoryOptions.trivia_categories.map(opt => new SelectOption(opt.id, opt.name, false));
+    }*/
+
+    constructor(private _http: HttpClient) {}
+
+    /**
+     * Initialize the quiz service
+     * Request from API the list of category options
+     */
+    public initService(): Observable<{
+        trivia_categories: {
+            id: number;
+            name: string;
+        }[];
+    }> {
+        const categoryUrl = 'https://opentdb.com/api_category.php';
+        return this._http
+            .get<{
+                trivia_categories: {
+                    id: number;
+                    name: string;
+                }[];
+            }>(categoryUrl)
+            .pipe(
+                tap(content => {
+                    if (content) {
+                        this.categoryOptions = content;
+                        console.log('List of category options loaded');
+                    } else {
+                        console.error('There has been an error');
+                    }
+                })
+            );
+    }
+
+    /**
+     * Request creation of the quiz to the Trivia API
+     */
+    public createQuiz2(quizSettings: {amount: number; category: number; difficulty: string; type: 'multiple' | 'any' | 'true/false'}) {
+        const createQuizUrl = 'https://opentdb.com/api.php';
+        return this._http.get<CreateQuizResponse>(createQuizUrl, {params: quizSettings}).subscribe({
+            next: data => {
+                const createQuizResponse = new CreateQuizResponse(data);
+                this.questionsSubject.next(createQuizResponse.questions);
+                this._hasQuiz = true;
+            },
+            error: error => console.error(error),
+            complete: () => console.log('Quiz creation completed.'),
+        });
+    }
+}

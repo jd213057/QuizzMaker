@@ -1,5 +1,0 @@
-<label *ngIf="title" for="{{ selectId }}">{{ title }}</label>
-<select id="{{ selectId }}" name="{{ name }}" (change)="onSelectChange($event)">
-    <option value="{{ defaultOption.value }}" [selected]="isSelected(defaultOption.value)">{{ defaultOption.label }}</option>
-    <option *ngFor="let option of options" value="{{ option.value }}" [selected]="isSelected(option.value)">{{ option.label }}</option>
-</select>

@@ -1,40 +1,37 @@
 import {HttpClientModule} from '@angular/common/http';
 import {APP_INITIALIZER, NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {BrowserModule} from '@angular/platform-browser';
+import {RouterModule} from '@angular/router';
 import {firstValueFrom} from 'rxjs';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {QuizzComponent} from './features/quizz/quizz.component';
-import {QuizzQuestionComponent} from './shared/components/quizz-question/quizz-question.component';
-import {QuizzSelectComponent} from './shared/components/quizz-select/quizz-select.component';
+import {QuizResultsComponent} from './features/quiz-results/quiz-results.component';
+import {QuizComponent} from './features/quiz/quiz.component';
+import {QuizQuestionComponent} from './shared/components/quiz-question/quiz-question.component';
+import {QuizResultComponent} from './shared/components/quiz-result/quiz-result.component';
 import {ChoiceDirective} from './shared/directives/choice';
 import {UnescapePipe} from './shared/pipes/unescape';
-import {QuizzService} from './shared/services/quizz.service';
-import {QuizzResultsComponent} from './features/quizz-results/quizz-results.component';
-import {RouterModule} from '@angular/router';
-import { QuizzResultComponent } from './shared/components/quizz-result/quizz-result.component';
+import {QuizService} from './shared/services/quiz.service';
 
 @NgModule({
     declarations: [
         AppComponent,
-        QuizzSelectComponent,
         UnescapePipe,
-        QuizzQuestionComponent,
+        QuizQuestionComponent,
         ChoiceDirective,
-        QuizzComponent,
-        QuizzResultsComponent,
-        QuizzResultComponent,
+        QuizComponent,
+        QuizResultsComponent,
+        QuizResultComponent,
     ],
     imports: [BrowserModule, HttpClientModule, FormsModule, ReactiveFormsModule, AppRoutingModule, RouterModule],
     providers: [
         {
             provide: APP_INITIALIZER,
             multi: true,
-            deps: [QuizzService],
-            useFactory: (quizzService: QuizzService) => {
-                return () => firstValueFrom(quizzService.initService());
+            deps: [QuizService],
+            useFactory: (quizService: QuizService) => {
+                return () => firstValueFrom(quizService.initService());
             },
         },
     ],

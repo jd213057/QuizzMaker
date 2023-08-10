@@ -1,0 +1,28 @@
+<!--Quiz component page-->
+<div class="page">
+    <h2>Quiz Maker</h2>
+    <!--Create quiz form-->
+    <form (ngSubmit)="createQuiz()">
+        <div class="form-line">
+            <!--Category dropdown-->
+            <select id="categorySelect" name="categorySelect" [(ngModel)]="category">
+                <option [value]="defaultCategoryOption.value">{{ defaultCategoryOption.label }}</option>
+                <option *ngFor="let option of categoryOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+            <!--Difficulty dropdown-->
+            <select id="difficultySelect" name="difficultySelect" [(ngModel)]="difficulty">
+                <option [value]="defaultDifficultyOption.value">{{ defaultDifficultyOption.label }}</option>
+                <option *ngFor="let option of difficultyOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+        </div>
+        <button id="createBtn" class="submit-btn create-btn" type="submit">Create</button>
+    </form>
+</div>
+
+<!--Quiz-->
+<div *ngIf="hasQuiz" class="questions-block">
+    <form (ngSubmit)="onSubmit()">
+        <app-quiz-question *ngFor="let question of questions" [id]="question.id" [question]="question"></app-quiz-question>
+        <div class="submit-btn"><button type="submit" [ngClass]="{hidden: canSubmit()}">Submit</button></div>
+    </form>
+</div>

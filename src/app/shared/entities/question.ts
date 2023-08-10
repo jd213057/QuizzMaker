@@ -1,4 +1,7 @@
+//import {Question} from '../entities/question';
+import {UnescapePipe} from '../pipes/unescape';
 import {SelectType} from '../types';
+import {Choice} from './choice';
 
 /**
  * Interface to deserialize Question json like
@@ -38,7 +41,12 @@ export interface Question {
 /**
  * Class the defines a Question object
  */
-export class Question {
+export class Question2 {
+    /**
+     *Unescape pipe to format questions and choices
+     */
+    protected static unescape: UnescapePipe = new UnescapePipe();
+
     /**
      * Number for Id registration
      */
@@ -47,27 +55,12 @@ export class Question {
     /**
      * Id of Question
      */
-    public readonly id!: number;
-
-    /**
-     * Category of Question
-     */
-    public category: string;
-
-    /**
-     * Difficulty of Question
-     */
-    public difficulty: string;
+    public id: number;
 
     /**
      * Question of Question
      */
     public question: string;
-
-    /**
-     * Type of Question
-     */
-    public type: SelectType;
 
     /**
      * Correct answer of Question
@@ -80,36 +73,29 @@ export class Question {
     public incorrectAnswers: string[];
 
     /**
-     * Choices of Question
+     * Choices available for the question
      */
-    public choices: string[];
+    public choices: Choice[];
 
-    /**
-     * Constructor of Question
-     * @param json Question
-     */
     constructor(json: Question) {
-        this.id = Question._idNumber++;
-        this.category = json?.category;
-        this.difficulty = json?.difficulty;
-        this.question = json?.question;
-        this.type = json?.type;
-        this.correctAnswer = json?.correct_answer;
-        this.incorrectAnswers = json?.incorrect_answers;
-        this.choices = Question._getChoices(this.correctAnswer, this.incorrectAnswers);
+        this.id = Question2._idNumber++;
+        this.question = Question2.unescape.transform(json?.question);
+        this.correctAnswer = Question2.unescape.transform(json?.correct_answer);
+        this.incorrectAnswers = json?.incorrect_answers.map(el => Question2.unescape.transform(el));
+        this.choices = Question2._getChoices(this.id, this.correctAnswer, this.incorrectAnswers);
     }
 
     /**
      * Returns shuffled list of choices for related question
-     * @param question QuizzQuestion
+     * @param question QuizQuestion
      * @returns List of choices string[]
      */
-    private static _getChoices(correctAnswer: string, incorrectAnswers: string[]): string[] {
-        let choices = [correctAnswer];
-        choices.push(...incorrectAnswers);
+    private static _getChoices(id: number, correctAnswer: string, incorrectAnswers: string[]): Choice[] {
+        let choices: Choice[] = [];
+        choices.push(new Choice(id, correctAnswer, true, false));
+        incorrectAnswers.forEach(el => choices.push(new Choice(id, el, false, false)));
         //Shuffles the list
         choices.sort(() => Math.random() - 0.5);
         return choices;
     }
 }
-export {SelectType};

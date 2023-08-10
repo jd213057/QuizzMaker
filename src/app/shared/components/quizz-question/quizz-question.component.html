@@ -1,8 +1,0 @@
-<div id="{{ question.id }}" class="question-block">
-    <span class="question-title">{{ question.question | unescape }}</span>
-    <div>
-        <button choice *ngFor="let choice of choices" value="{{ choice | unescape }}" class="choice-btn" (click)="onChoice(choice)">{{
-            choice | unescape
-        }}</button>
-    </div>
-</div>
