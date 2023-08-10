@@ -1,5 +1,5 @@
 import {Directive, ElementRef, HostListener, Renderer2} from '@angular/core';
-import {ColorState} from '../types';
+import {ColorState} from '../utils/types';
 /**
  * Attribute directive for a choice of a question
  */

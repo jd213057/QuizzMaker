@@ -36,6 +36,10 @@
     &:not(:first-child) {
         margin-left: 0.5em;
     }
+
+    &.no-cursor {
+        cursor: unset;
+    }
 }
 
 .questions-block .submit-btn,

@@ -1,10 +1,9 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, Subject, tap} from 'rxjs';
-import {Answer} from '../entities/answer';
+import {BehaviorSubject, Observable, tap} from 'rxjs';
 import {CreateQuizResponse} from '../entities/createQuizResponse';
+import {CreateQuizResponse as ICreateQuizResponse} from '../interfaces/createQuizResponse';
 import {Question} from '../entities/question';
-import {Question2} from '../entities/question';
 import {SelectOption} from '../entities/selectOption';
 
 @Injectable({
@@ -38,12 +37,12 @@ export class QuizService {
      * Subject of the questions of the current quiz
      */
     //public questionsSubject: BehaviorSubject<Question[]> = new BehaviorSubject<Question[]>([]);
-    public questionsSubject: BehaviorSubject<Question2[]> = new BehaviorSubject<Question2[]>([]);
+    public questionsSubject: BehaviorSubject<Question[]> = new BehaviorSubject<Question[]>([]);
 
     /**
      * Observable of the questions of the current quiz
      */
-    public questions$: Observable<Question2[]> = this.questionsSubject.asObservable();
+    public questions$: Observable<Question[]> = this.questionsSubject.asObservable();
 
     /**
      * Indicates if has a current quiz
@@ -111,7 +110,7 @@ export class QuizService {
      */
     public createQuiz2(quizSettings: {amount: number; category: number; difficulty: string; type: 'multiple' | 'any' | 'true/false'}) {
         const createQuizUrl = 'https://opentdb.com/api.php';
-        return this._http.get<CreateQuizResponse>(createQuizUrl, {params: quizSettings}).subscribe({
+        return this._http.get<ICreateQuizResponse>(createQuizUrl, {params: quizSettings}).subscribe({
             next: data => {
                 const createQuizResponse = new CreateQuizResponse(data);
                 this.questionsSubject.next(createQuizResponse.questions);

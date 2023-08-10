@@ -1,15 +1,26 @@
 <div id="{{ question.id }}" class="question-block">
     <span class="question-title">{{ question.question | unescape }}</span>
-    <div>
+    <div *ngIf="isQuizMode(); else results">
         <button
-            choice
             *ngFor="let choice of choices"
-            type="button"
+            choice
             [id]="choice.id"
             value="{{ choice.value | unescape }}"
             class="choice-btn"
-            (click)="onChoice(choice)"
+            (click)="onChoice($event, choice)"
             >{{ choice.value | unescape }}</button
         >
     </div>
+    <ng-template #results>
+        <div>
+            <button
+                *ngFor="let choice of question.choices"
+                result
+                [state]="getState(choice)"
+                class="choice-btn no-cursor"
+                value="{{ choice.value | unescape }}"
+                >{{ choice.value | unescape }}</button
+            >
+        </div>
+    </ng-template>
 </div>

@@ -9,10 +9,11 @@ import {AppComponent} from './app.component';
 import {QuizResultsComponent} from './features/quiz-results/quiz-results.component';
 import {QuizComponent} from './features/quiz/quiz.component';
 import {QuizQuestionComponent} from './shared/components/quiz-question/quiz-question.component';
-import {QuizResultComponent} from './shared/components/quiz-result/quiz-result.component';
 import {ChoiceDirective} from './shared/directives/choice';
+import {ResultDirective} from './shared/directives/result';
 import {UnescapePipe} from './shared/pipes/unescape';
 import {QuizService} from './shared/services/quiz.service';
+import { QuizScoreBarComponent } from './shared/components/quiz-score-bar/quiz-score-bar.component';
 
 @NgModule({
     declarations: [
@@ -20,9 +21,10 @@ import {QuizService} from './shared/services/quiz.service';
         UnescapePipe,
         QuizQuestionComponent,
         ChoiceDirective,
+        ResultDirective,
         QuizComponent,
         QuizResultsComponent,
-        QuizResultComponent,
+        QuizScoreBarComponent,
     ],
     imports: [BrowserModule, HttpClientModule, FormsModule, ReactiveFormsModule, AppRoutingModule, RouterModule],
     providers: [

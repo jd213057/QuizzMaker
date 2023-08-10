@@ -1,11 +1,10 @@
 import {Component} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
-import {Answer} from 'src/app/shared/entities/answer';
-import {Question2} from 'src/app/shared/entities/question';
+import {Question} from 'src/app/shared/entities/question';
 import {SelectOption} from 'src/app/shared/entities/selectOption';
 import {QuizService} from 'src/app/shared/services/quiz.service';
-import {SelectType} from 'src/app/shared/types';
+import {SelectType} from 'src/app/shared/utils/types';
 /**
  * Quiz HMI component
  */
@@ -33,13 +32,7 @@ export class QuizComponent {
     /**
      * Gets the question of the current quiz
      */
-    //protected questions: Question[] = [];
-    protected questions: Question2[] = [];
-
-    /**
-     * List of answers of the current quiz
-     */
-    protected answers: Answer[] = [];
+    protected questions: Question[] = [];
 
     /**
      *Category of the quiz
@@ -109,7 +102,6 @@ export class QuizComponent {
      * @returns boolean
      */
     protected canSubmit(): boolean {
-        console.log(this.questions);
         return !this.questions.every(q => q.choices.some(c => c.selected));
     }
 

@@ -23,7 +23,7 @@ export class Choice {
     public selected: boolean;
 
     /**
-     * Constrcutor of Choice
+     * Constructor of Choice
      * @param id number
      * @param value string
      * @param correct boolean

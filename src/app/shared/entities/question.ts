@@ -1,47 +1,11 @@
-//import {Question} from '../entities/question';
+import {Question as IQuestion} from '../interfaces/question';
 import {UnescapePipe} from '../pipes/unescape';
-import {SelectType} from '../types';
 import {Choice} from './choice';
-
-/**
- * Interface to deserialize Question json like
- */
-export interface Question {
-    /**
-     * Category of Question
-     */
-    category: string;
-
-    /**
-     * Difficulty of Question
-     */
-    difficulty: string;
-
-    /**
-     * Question of Question
-     */
-    question: string;
-
-    /**
-     * Type of Question
-     */
-    type: SelectType;
-
-    /**
-     * Correct answer of Question
-     */
-    correct_answer: string;
-
-    /**
-     * Incorrect answers of Question
-     */
-    incorrect_answers: string[];
-}
 
 /**
  * Class the defines a Question object
  */
-export class Question2 {
+export class Question {
     /**
      *Unescape pipe to format questions and choices
      */
@@ -60,29 +24,36 @@ export class Question2 {
     /**
      * Question of Question
      */
-    public question: string;
+    public question!: string;
 
     /**
      * Correct answer of Question
      */
-    public correctAnswer: string;
+    public correctAnswer!: string;
 
     /**
      * Incorrect answers of Question
      */
-    public incorrectAnswers: string[];
+    public incorrectAnswers!: string[];
 
     /**
      * Choices available for the question
      */
     public choices: Choice[];
 
-    constructor(json: Question) {
-        this.id = Question2._idNumber++;
-        this.question = Question2.unescape.transform(json?.question);
-        this.correctAnswer = Question2.unescape.transform(json?.correct_answer);
-        this.incorrectAnswers = json?.incorrect_answers.map(el => Question2.unescape.transform(el));
-        this.choices = Question2._getChoices(this.id, this.correctAnswer, this.incorrectAnswers);
+    /**
+     * Constructor of Question
+     * @param json Question
+     */
+    constructor(json: IQuestion) {
+        const noValue = '';
+        const unescape: UnescapePipe = new UnescapePipe();
+
+        this.id = Question._idNumber++;
+        this.question = unescape.transform(json?.question) ?? noValue;
+        this.correctAnswer = unescape.transform(json?.correct_answer) ?? noValue;
+        this.incorrectAnswers = json?.incorrect_answers.map(el => unescape.transform(el) ?? noValue);
+        this.choices = Question._getChoices(this.id, this.correctAnswer, this.incorrectAnswers);
     }
 
     /**

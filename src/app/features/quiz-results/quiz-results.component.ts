@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {Question2} from 'src/app/shared/entities/question';
+import {Question} from 'src/app/shared/entities/question';
 import {QuizService} from 'src/app/shared/services/quiz.service';
-import {ColorState} from 'src/app/shared/types';
+import {ColorState} from 'src/app/shared/utils/types';
 /**
  * Results of the quiz (HMI component)
  */
@@ -15,7 +15,7 @@ export class QuizResultsComponent implements OnInit, OnDestroy {
     /**
      * Results of the current quiz
      */
-    protected questions: Question2[] = [];
+    protected questions: Question[] = [];
 
     /**
      * Score obtained on the current quiz
