@@ -113,7 +113,6 @@ export class QuizComponent implements OnInit, OnDestroy {
      * Triggered when quiz is submited
      */
     public onSubmit() {
-        console.log(this.questions);
         this._quizService.questionsSubject.next(this.questions);
         this._route.navigate(['/results']);
     }
